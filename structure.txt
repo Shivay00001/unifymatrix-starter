@@ -1,0 +1,14 @@
+frontend/
+├── public/
+├── src/
+│   ├── App.js
+│   ├── components/
+│   │   ├── Login.js
+│   │   ├── Chat.js
+│   │   ├── Feed.js
+│   │   ├── Payments.js
+│   │   └── AiBot.js
+│   └── utils/
+│       ├── matrixClient.js
+│       └── api.js
+└── package.json
