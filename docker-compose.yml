@@ -1,0 +1,24 @@
+version: '3'
+services:
+  synapse:
+    image: matrixdotorg/synapse:latest
+    container_name: synapse
+    ports:
+      - "8008:8008"
+    volumes:
+      - ./synapse/data:/data
+    environment:
+      - SYNAPSE_SERVER_NAME=localhost
+      - SYNAPSE_REPORT_STATS=no
+
+  bridge-telegram:
+    image: registry.gitlab.com/mautrix/telegram:latest
+    container_name: bridge-telegram
+    volumes:
+      - ./bridge/telegram/config:/config
+
+  bridge-whatsapp:
+    image: registry.gitlab.com/mautrix/whatsapp:latest
+    container_name: bridge-whatsapp
+    volumes:
+      - ./bridge/whatsapp/config:/config
