@@ -48,3 +48,26 @@ Contributions, issues, and feature requests are welcome! Feel free to check the 
 ## 📝 License
 
 This project is licensed under standard terms.
+
+---
+
+## 🔧 Wave-1 fix notes (2026-09-24)
+
+- **Real Vite app:** the repo was a static JSX skeleton — `npm start` pointed at a
+  nonexistent `index.js` and there was no bundler. Now:
+  - `vite.config.js` + `src/main.jsx` entry + `index.html` as the Vite entry.
+  - Real components in `src/`: `App.jsx`, `components/{Login,Chat,Feed,Payments,AiBot}.jsx`,
+    `utils/matrixClient.js`. Login is demo-local (honestly labeled); Feed posts and
+    the rule-based AiBot work fully client-side; Payments is a demo form.
+  - `matrix-js-sdk` is an **optional** dependency, lazy-loaded at runtime with a
+    clear disabled message when absent (build works without it).
+  - Root `apps.js`/`chat.js`/`login.js` are now thin re-export shims to `src/`
+    (keeps the repo's smoke test green); `firebase.js` keeps the real config.
+  - `package.json`: `dev`/`build`/`preview`/`start` scripts; `firebase` and
+    `matrix-js-sdk` listed under `optionalDependencies`.
+- **Docker:** `CMD ["npm","start"]` now serves the built `dist/` via `vite preview`.
+- Verified 2026-09-24: `npm run build` succeeds (dist/ produced); `vite preview`
+  serves index + assets with HTTP 200; repo smoke test (`node --check` on the four
+  entry files) passes.
+- To go live: `npm i firebase matrix-js-sdk`, then wire `firebase.js` config into
+  `Login.jsx` and point `matrixClient.js` at your homeserver.
